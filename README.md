@@ -25,7 +25,6 @@ A complete web-based examination system built with modern technologies, enabling
 - Question bank management
 - Responsive design for all devices[^2]
 
-
 ## ✨ Features
 
 ### Admin Features
@@ -38,7 +37,6 @@ A complete web-based examination system built with modern technologies, enabling
 - 📈 **Results Tracking** - View and analyze exam results
 - ⏰ **Exam Scheduling** - Set start/end times and duration
 
-
 ### Student Features
 
 - 🎯 **Clean Dashboard** - View assigned and available exams
@@ -48,7 +46,6 @@ A complete web-based examination system built with modern technologies, enabling
 - 📱 **Mobile Responsive** - Take exams on any device
 - 🔒 **Secure Exam Environment** - Prevents data loss and cheating
 
-
 ## 🛠️ Installation
 
 ### Prerequisites
@@ -56,7 +53,6 @@ A complete web-based examination system built with modern technologies, enabling
 - Node.js (v16 or higher)
 - MongoDB (local or cloud)
 - npm or yarn
-
 
 ### Setup Instructions
 
@@ -109,7 +105,6 @@ npm run dev
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:5000
 
-
 ## 📂 Project Structure
 
 ```
@@ -135,7 +130,6 @@ exam-portal/
 └── README.md
 ```
 
-
 ## 🔌 API Endpoints
 
 ### Authentication
@@ -144,7 +138,6 @@ exam-portal/
 - `POST /api/auth/login` - User login
 - `GET /api/auth/me` - Get current user
 
-
 ### Questions (Admin Only)
 
 - `GET /api/questions` - Get all questions with filters
@@ -152,7 +145,6 @@ exam-portal/
 - `PUT /api/questions/:id` - Update question
 - `DELETE /api/questions/:id` - Delete question
 - `GET /api/questions/metadata` - Get subjects/topics
-
 
 ### Exams
 
@@ -163,7 +155,6 @@ exam-portal/
 - `POST /api/exams/:id/submit` - Submit exam answers
 - `GET /api/exams/:id/results` - Get exam results (Admin)
 
-
 ## 👥 User Roles
 
 ### Admin Account
@@ -173,14 +164,12 @@ exam-portal/
 - View results and analytics
 - Full system access
 
-
 ### Student Account
 
 - View assigned exams
 - Take active exams
 - Submit answers
 - View personal results
-
 
 ## 🚦 Getting Started
 
@@ -213,7 +202,6 @@ exam-portal/
 - `npm run dev` - Development server with Vite
 - `npm run build` - Production build
 - `npm run preview` - Preview production build
-
 
 ### Database Schema
 
@@ -258,7 +246,6 @@ exam-portal/
 }
 ```
 
-
 ## 🔒 Security Features
 
 - JWT-based authentication
@@ -267,7 +254,6 @@ exam-portal/
 - Input validation and sanitization
 - CORS configuration
 - Secure HTTP headers
-
 
 ## 🎯 Future Enhancements
 
@@ -280,40 +266,8 @@ exam-portal/
 - [ ] Multi-language support
 - [ ] Question difficulty analysis
 
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Built with modern fullstack technologies[^2]
-- Vite for lightning-fast development[^1]
-- Tailwind CSS for beautiful UI
-- MongoDB for flexible data storage
-
-
-## 📞 Support
-
-For support and questions:
-
-- Create an issue in the repository
-- Email: your-email@example.com
-- Documentation: [Wiki](link-to-wiki)
-
 **Made with ❤️ using React, Node.js, MongoDB, and Vite**[^1][^2]
-
-<div style="text-align: center">⁂</div>
 
 [^1]: programming.build_tools
 
 [^2]: programming.fullstack_development
-
