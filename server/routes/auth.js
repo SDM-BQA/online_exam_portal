@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const { auth } = require('../middleware/auth');
+const { auth, adminAuth } = require('../middleware/auth'); // ← Fixed import
 const router = express.Router();
 
 // Register
@@ -51,6 +51,16 @@ router.get('/me', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId).select('-password');
     res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get all students (admin only) - This route now works!
+router.get('/students', auth, adminAuth, async (req, res) => {
+  try {
+    const students = await User.find({ role: 'student' }).select('-password');
+    res.json(students);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

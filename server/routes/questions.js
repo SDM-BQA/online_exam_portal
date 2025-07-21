@@ -40,7 +40,7 @@ router.post('/', auth, adminAuth, async (req, res) => {
   }
 });
 
-// Update question
+// Update question (admin only)
 router.put('/:id', auth, adminAuth, async (req, res) => {
   try {
     const question = await Question.findByIdAndUpdate(
@@ -48,23 +48,29 @@ router.put('/:id', auth, adminAuth, async (req, res) => {
       req.body,
       { new: true }
     );
+    if (!question) {
+      return res.status(404).json({ error: 'Question not found' });
+    }
     res.json(question);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });
 
-// Delete question
+// Delete question (admin only)
 router.delete('/:id', auth, adminAuth, async (req, res) => {
   try {
-    await Question.findByIdAndDelete(req.params.id);
+    const question = await Question.findByIdAndDelete(req.params.id);
+    if (!question) {
+      return res.status(404).json({ error: 'Question not found' });
+    }
     res.json({ message: 'Question deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Get subjects and topics for filters
+// Get subjects and topics for filters (admin only)
 router.get('/metadata', auth, adminAuth, async (req, res) => {
   try {
     const subjects = await Question.distinct('subject');

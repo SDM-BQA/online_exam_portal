@@ -19,7 +19,7 @@ router.post('/', auth, adminAuth, async (req, res) => {
   }
 });
 
-// Get all exams (admin)
+// Get all exams (admin only)
 router.get('/admin', auth, adminAuth, async (req, res) => {
   try {
     const exams = await Exam.find()
@@ -33,9 +33,13 @@ router.get('/admin', auth, adminAuth, async (req, res) => {
   }
 });
 
-// Get exams for student
+// Get exams for student (student only)
 router.get('/student', auth, async (req, res) => {
   try {
+    if (req.user.role !== 'student') {
+      return res.status(403).json({ error: 'Student access required' });
+    }
+    
     const exams = await Exam.find({
       assignedStudents: req.user.userId,
       isActive: true
@@ -46,14 +50,22 @@ router.get('/student', auth, async (req, res) => {
   }
 });
 
-// Get single exam for taking
+// Get single exam for taking (student only)
 router.get('/:id/take', auth, async (req, res) => {
   try {
+    if (req.user.role !== 'student') {
+      return res.status(403).json({ error: 'Student access required' });
+    }
+
     const exam = await Exam.findById(req.params.id)
       .populate({
         path: 'questions',
         select: 'question type options marks subject topic'
       });
+
+    if (!exam) {
+      return res.status(404).json({ error: 'Exam not found' });
+    }
 
     if (!exam.assignedStudents.includes(req.user.userId)) {
       return res.status(403).json({ error: 'Not authorized to take this exam' });
@@ -80,12 +92,20 @@ router.get('/:id/take', auth, async (req, res) => {
   }
 });
 
-// Submit exam
+// Submit exam (student only)
 router.post('/:id/submit', auth, async (req, res) => {
   try {
+    if (req.user.role !== 'student') {
+      return res.status(403).json({ error: 'Student access required' });
+    }
+
     const { answers } = req.body;
     const exam = await Exam.findById(req.params.id).populate('questions');
     
+    if (!exam) {
+      return res.status(404).json({ error: 'Exam not found' });
+    }
+
     let obtainedMarks = 0;
     const processedAnswers = [];
 
@@ -122,7 +142,7 @@ router.post('/:id/submit', auth, async (req, res) => {
   }
 });
 
-// Get exam results (admin)
+// Get exam results (admin only)
 router.get('/:id/results', auth, adminAuth, async (req, res) => {
   try {
     const results = await ExamResult.find({ exam: req.params.id })
@@ -135,13 +155,29 @@ router.get('/:id/results', auth, adminAuth, async (req, res) => {
   }
 });
 
-// Update exam
+// Update exam (admin only)
 router.put('/:id', auth, adminAuth, async (req, res) => {
   try {
     const exam = await Exam.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!exam) {
+      return res.status(404).json({ error: 'Exam not found' });
+    }
     res.json(exam);
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+});
+
+// Delete exam (admin only)
+router.delete('/:id', auth, adminAuth, async (req, res) => {
+  try {
+    const exam = await Exam.findByIdAndDelete(req.params.id);
+    if (!exam) {
+      return res.status(404).json({ error: 'Exam not found' });
+    }
+    res.json({ message: 'Exam deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
